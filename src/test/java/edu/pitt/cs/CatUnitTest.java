@@ -31,7 +31,10 @@ public class CatUnitTest {
 		// Passing InstanceType.IMPL as the first parameter will create a real cat using your CatImpl implementation.
 		// Passing InstanceType.MOCK as the first parameter will create a mock cat using Mockito.
 		// Which type is the correct choice for this unit test?  I'll leave it up to you.  The answer is in the Unit Testing Part 2 lecture. :)
-		// TODO: Fill in
+
+		// TODO: if we need to remember the actual state, change to using real object rather than mock; mock objects can check modifications
+		//c = Cat.createInstance(InstanceType.MOCK, 1, "Jennyanydots");
+		c = Cat.createInstance(InstanceType.IMPL, 1, "Jennyanydots");
 	}
 
 	@After
@@ -52,7 +55,13 @@ public class CatUnitTest {
 	 */
 	@Test
 	public void testGetId() {
-		// TODO: Fill in
+		// Execution steps: Call c.getId().
+		int id = c.getId();
+
+		// Postconditions: return value is 1
+		// if it's a mock object, do NOT use verify (pointless)
+		// prob shouldn't use mock since we're checking what return value is -- would end up being tautoogical test
+		assertEquals(1, id);
 	}
 
 	/**
@@ -66,7 +75,11 @@ public class CatUnitTest {
 	 */
 	@Test
 	public void testGetName() {
-		// TODO: Fill in
+		// Execution steps: Call c.getName().
+		String str = c.getName();
+
+		// Postconditions: Return value is "Jennyanydots".
+		assertEquals("Jennyanydots", str);
 	}
 
 	/**
@@ -80,7 +93,11 @@ public class CatUnitTest {
 	 */
 	@Test
 	public void testGetRented() {
-		// TODO: Fill in
+		// Execution steps: Call c.getRented().
+		boolean bool = c.getRented();
+
+		// Postconditions: Return value is false.
+		assertEquals(false, bool);
 	}
 
 	/**
@@ -94,7 +111,8 @@ public class CatUnitTest {
 	 */
 	@Test
 	public void testToString() {
-		// TODO: Fill in
+		String str = c.toString();
+		assertEquals("ID 1. Jennyanydots", str);
 	}
 
 	/**
@@ -109,7 +127,10 @@ public class CatUnitTest {
 	 */
 	@Test
 	public void testRentCat() {
-		// TODO: Fill in
+		c.rentCat();
+		boolean isRented = c.getRented();
+
+		assertEquals(true, isRented);
 	}
 
 	/**
@@ -125,7 +146,17 @@ public class CatUnitTest {
 	 */
 	@Test
 	public void testReturnCat() {
-		// TODO: Fill in
+		// Preconditions: c has been created with ID 1, and name "Jennyanydots".
+	    //                c has been rented.
+		c.rentCat();
+
+		// Execution steps: Call c.returnCat().
+		// 					Call c.getRented().
+		c.returnCat();
+		boolean isRented = c.getRented();
+
+		// Postconditions: Return value of c.getRented() is false.
+		assertEquals(false, isRented);
 	}
 
 	/**
@@ -140,7 +171,10 @@ public class CatUnitTest {
 	 */
 	@Test
 	public void testRenameCat() {
-		// TODO: Fill in
+		c.renameCat("Garfield");
+
+		assertEquals("Garfield", c.getName());
+		assertEquals("ID 1. Garfield", c.toString());
 	}
 
 }
